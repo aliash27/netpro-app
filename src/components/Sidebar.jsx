@@ -9,6 +9,7 @@ const links = [
   { path: '/reports',     icon: '📊', label: 'التقارير' },
   { path: '/sheets',      icon: '🔗', label: 'ربط Google Sheets' },
   { path: '/settings',    icon: '⚙️', label: 'الإعدادات' },
+  { path: '/accountants', icon: '👤', label: 'المحاسبون الفرعيون' },
   { path: '/pricing',     icon: '💎', label: 'الباقات والاشتراك' },
 ]
 
