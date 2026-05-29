@@ -95,7 +95,21 @@ export default function Layout() {
       <main>
         <Outlet context={{ gsConnected, setGsConnected, setDebtCount }} />
       </main>
-
+{/* Admin link - visible only for admin */}
+{company?.is_admin && (
+  <div style={{position:'fixed',bottom:78,right:17,zIndex:151}}>
+    <button
+      onClick={() => navigate('/admin')}
+      style={{width:52,height:52,borderRadius:16,
+        background:'linear-gradient(135deg,#0a0f1e,#1a3fdb)',
+        color:'#fff',border:'none',display:'flex',
+        alignItems:'center',justifyContent:'center',
+        fontSize:22,cursor:'pointer',
+        boxShadow:'0 4px 20px rgba(26,63,219,.4)'}}>
+      🛡️
+    </button>
+  </div>
+)}
       {/* Bottom Nav */}
       <BottomNav debtCount={debtCount} />
 
