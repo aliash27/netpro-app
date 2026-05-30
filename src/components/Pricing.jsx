@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { supabase } from '../lib/supabase'
-import { toast } from './Toast'
 
 const plans = [
   {
@@ -44,28 +42,17 @@ const plans = [
 
 export default function Pricing() {
   const navigate = useNavigate()
-  const { company, refreshCompany, trialDaysLeft } = useAuth()
-
-  async function selectPlan(key, name) {
-    if (!company) return
-    const { error } = await supabase
-      .from('companies')
-      .update({ plan: key })
-      .eq('id', company.id)
-    if (error) { toast('حدث خطأ', 'e'); return }
-    await refreshCompany()
-    toast(`✅ تم اختيار خطة ${name}!`, 's')
-    navigate('/')
-  }
+  const { trialDaysLeft } = useAuth()
 
   return (
     <div className="pricing-wrap">
-      <button
-        onClick={() => navigate('/')}
+      <button onClick={() => navigate('/')}
         style={{background:'none',border:'none',color:'var(--blue)',
           fontSize:14,fontWeight:700,cursor:'pointer',
-          display:'flex',alignItems:'center',gap:6,marginBottom:18,padding:0}}
-      >← رجوع</button>
+          display:'flex',alignItems:'center',gap:6,
+          marginBottom:18,padding:0}}>
+        ← رجوع
+      </button>
 
       <div className="pricing-head fadeUp">
         <h2 className="grad-text">اختر خطتك الاحترافية</h2>
@@ -74,20 +61,24 @@ export default function Pricing() {
 
       <div className="plan-grid">
         {plans.map((plan, i) => (
-          <div
-            key={plan.key}
+          <div key={plan.key}
             className={`plan-card fadeUp ${plan.popular ? 'popular' : ''}`}
-            style={{animationDelay:`${i * 0.1}s`}}
-          >
+            style={{animationDelay:`${i*0.1}s`}}>
             {plan.popular && <div className="plan-tag">⭐ الأكثر طلباً</div>}
-            <div className="plan-name" style={plan.popular ? {
-              background:'var(--gP)',WebkitBackgroundClip:'text',
-              WebkitTextFillColor:'transparent'} : {}}>
+            <div className="plan-name"
+              style={plan.popular ? {
+                background:'var(--gP)',
+                WebkitBackgroundClip:'text',
+                WebkitTextFillColor:'transparent'
+              } : {}}>
               {plan.name}
             </div>
-            <div className="plan-price" style={plan.popular ? {
-              background:'var(--gP)',WebkitBackgroundClip:'text',
-              WebkitTextFillColor:'transparent'} : {}}>
+            <div className="plan-price"
+              style={plan.popular ? {
+                background:'var(--gP)',
+                WebkitBackgroundClip:'text',
+                WebkitTextFillColor:'transparent'
+              } : {}}>
               <span className="plan-currency">$</span>
               {plan.price}
               <span className="plan-period"> / شهرياً</span>
@@ -105,8 +96,7 @@ export default function Pricing() {
             </ul>
             <button
               className={`btn ${plan.popular ? 'btn-primary' : 'btn-ghost'}`}
-              onClick={() => selectPlan(plan.key, plan.name)}
-            >
+              onClick={() => navigate(`/subscribe/${plan.key}`)}>
               {plan.popular ? 'ابدأ الاحترافي الآن' : 'اختيار الخطة'}
             </button>
           </div>
@@ -115,7 +105,9 @@ export default function Pricing() {
 
       <div style={{marginTop:22,padding:16,background:'var(--sur)',
         borderRadius:20,border:'1px solid var(--bdr)',textAlign:'center'}}>
-        <div style={{fontSize:13,color:'var(--ink3)'}}>الفترة التجريبية المجانية</div>
+        <div style={{fontSize:13,color:'var(--ink3)'}}>
+          الفترة التجريبية المجانية
+        </div>
         <div style={{fontSize:26,fontWeight:900,margin:'5px 0',
           background:'var(--gP)',WebkitBackgroundClip:'text',
           WebkitTextFillColor:'transparent'}}>
